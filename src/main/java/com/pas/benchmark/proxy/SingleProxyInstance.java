@@ -17,7 +17,7 @@ public  class SingleProxyInstance{
 		if(null == proxyService){
 			proxyService = new SingleProxyInstance();
 			service = proxyService.getService((BasePerformance) realObject);
-			System.out.println("In SignProxyInstance ");
+			System.out.println("In SingleProxyInstance ");
 		}
 		return proxyService;
 	}
@@ -26,8 +26,8 @@ public  class SingleProxyInstance{
 		InvocationHandler handler = new ProxyHandler((BasePerformance) realObject);
 		service = (BasePerformance) Proxy.newProxyInstance(BasePerformance.class.getClassLoader(),
 				new Class<?>[] { BasePerformance.class }, handler);		
-		System.out.println(service.getClass().getName());
-		System.out.println("In singleProxyInstance");
+//		System.out.println(service.getClass().getName());
+//		System.out.println("In SingleProxyInstance");
 		return service;
 	}
 	

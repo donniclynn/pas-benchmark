@@ -41,11 +41,11 @@ public class DynamicProxy<T> implements Runnable {
 		this.startTime = System.currentTimeMillis();// 设置当前线程的开始时间
 		while (true) {
 			SampleResult result = ((BasePerformance) service).runTest(paras);
-			if (null != result && result.isOK()) {
+			if (null != result && !result.isOK()) {
 				totalfailRecords.incrementAndGet();
 			} else {
 				totalsuccessRecords.incrementAndGet();
-				if(paras[2].equals("true"))
+				if(null != paras && paras.length >=3 && paras[2].equals("true"))
 					vts.add(result.getEndTime() - result.getStartTime());
 			}
 			this.currentTime = System.currentTimeMillis();

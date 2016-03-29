@@ -10,7 +10,7 @@ import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class RunTest extends DynamicProxy {
+public  class RunTest<T> extends DynamicProxy {
 
 	private static long tmp = 0L;
 	private static long preOKTrans = 0L;// 上一次计算时的成功事务数
@@ -21,11 +21,7 @@ public class RunTest extends DynamicProxy {
 	private static String rtStr = null;// 记录平均响应时间
 	private static long runTime = 10000L; // 运行时长 单位ms
 	private static boolean saveRt = false;//是否记录响应时间
-
-	public RunTest(OrderImpl orderImpl, Object[] paras) {
-		super(orderImpl, paras);
-	}
-
+	
 	/**
 	 * Object[] paras 格式是：
 	 *  paras[0]传入变量
@@ -34,15 +30,23 @@ public class RunTest extends DynamicProxy {
 	 * 
 	 * @param args
 	 */
-	public static void main(String args[]) {
-
-		// 测试时只需要修改这一行程序
-		RunTest rt = new RunTest(new OrderImpl(),
-				new String[] { "test input parameter", String.valueOf(runTime), String.valueOf(saveRt) });
-
+	public RunTest(T realObject, Object[] paras) {
+		super(realObject, paras);
+		runTime = Integer.valueOf((String) paras[1]);
+		if(null != paras && paras.length>=3 && paras[2].equals("true")) saveRt = true;
+		
+	}
+	/**
+	 * 
+	 * @param rt		
+	 * @param threads	线程数
+	 */
+	public  void runTest(RunTest rt,int threads) {
+		int j = 1;
+		if(threads>1) j = threads;
 		rt.countTPS(interval);
 		startTime = System.currentTimeMillis();// 标记测试开始
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < j; i++) {
 			new Thread(rt).start();
 		}
 
