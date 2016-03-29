@@ -1,0 +1,5 @@
+set,test1010,test1010Value
+get,test1010
+del,[test1010]
+get,test1010
+set,test1111,test1111Value
